@@ -10,12 +10,15 @@ const port = process.env.PORT || 3000;
 var minutes = 1,
   the_interval = minutes * 60 * 1000;
 
+
+var lines = [];
 // funzione che viene eseguita ciclicamente dal server
 setInterval(function () {
   var curr_time = new Date().getTime();
    console.log("running schedule....")
   lines.forEach((line) => {
-    if(curr_time - line.time > 1000 * 60 * 10)  {
+    if(curr_time - line.time > 1000 * 60 * 1)  {
+        console.log("deleted");
         lines.pop(line)};
         
   });
@@ -28,7 +31,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-var lines = [];
+
 io.on("connection", (socket) => {
 
 
