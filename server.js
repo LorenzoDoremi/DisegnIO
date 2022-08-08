@@ -7,7 +7,7 @@ import { dirname } from "path";
 const IP = process.env.YOUR_HOST || "0.0.0.0";
 const port = process.env.PORT || 3000;
 
-var minutes = 0.1,
+var minutes = 1,
   the_interval = minutes * 60 * 1000;
 
 // funzione che viene eseguita ciclicamente dal server
@@ -33,9 +33,9 @@ io.on("connection", (socket) => {
 
 
   /* io.sockets.socket(socket.id).emit("new_data", lines) */
-  socket.on("conn", (connection, res) => {
+  socket.on("conn", (connection) => {
     
-    //  res.json(lines)
+    socket.emit("old_lines",lines);
   });
   // nuovo messaggio
   socket.on("line", (msg) => {

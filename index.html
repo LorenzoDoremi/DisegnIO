@@ -41,6 +41,10 @@
         // mi connetto
         var lines = [];
         socket.emit("conn", "hello!")
+
+        socket.on("old_lines", (response) => {
+            lines = response;
+        })
         // ricevo una nuova linea dal server
         socket.on("new_line", (response) => {
            lines.push(response)
