@@ -64,12 +64,11 @@
         function setup() {
             noStroke();
             createCanvas(x * 4, y * 4);
-            background(0);
-            stroke(30);
-            for (var i = 0; i < 200; i++) {
-                line(i * (x * 4) / 200, 0, i * (x * 4) / 200, y * 4);
-                line(0, i * (y * 4) / 100, x * 4, i * (y * 4) / 100);
-            }
+            drawBackground();
+
+
+
+            
         }
         function drawBackground() {
             
@@ -80,6 +79,7 @@
                 line(i * (x * 4) / 200, 0, i * (x * 4) / 200, y * 4);
                 line(0, i * (y * 4) / 100, x * 4, i * (y * 4) / 100);
             }
+            strokeWeight(4);
             old_lines.forEach(l => {
                 stroke(l.color[0], l.color[1], l.color[2]);
                 line(l.x, l.y, l.px, l.py);
