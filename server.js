@@ -7,7 +7,7 @@ import { dirname } from "path";
 const IP = process.env.YOUR_HOST || "0.0.0.0";
 const port = process.env.PORT || 3000;
 
-var minutes = 1,
+var minutes = 5,
   the_interval = minutes * 60 * 1000;
 
 
@@ -18,7 +18,7 @@ setInterval(function () {
    console.log("running schedule....")
   lines.forEach((line) => {
     if(curr_time - line.life > 1000 * 60 * 5)  {
-        console.log("deleted");
+     
         lines.pop(line)};
         
   });
