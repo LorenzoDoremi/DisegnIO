@@ -17,7 +17,7 @@ setInterval(function () {
   var curr_time = new Date().getTime();
    console.log("running schedule....")
   lines.forEach((line) => {
-    if(curr_time - line.time > 1000 * 60 * 1)  {
+    if(curr_time - line.life > 1000 * 60 * 5)  {
         console.log("deleted");
         lines.pop(line)};
         
