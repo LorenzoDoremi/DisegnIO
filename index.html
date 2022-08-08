@@ -39,11 +39,12 @@
     <script>
         var socket = io();
         // mi connetto
+        var old_lines = [];
         var lines = [];
         socket.emit("conn", "hello!")
 
         socket.on("old_lines", (response) => {
-            lines = response;
+            old_lines = response;
         })
         // ricevo una nuova linea dal server
         socket.on("new_line", (response) => {
@@ -79,6 +80,10 @@
                 line(i * (x * 4) / 200, 0, i * (x * 4) / 200, y * 4);
                 line(0, i * (y * 4) / 100, x * 4, i * (y * 4) / 100);
             }
+            old_lines.forEach(l => {
+                stroke(l.color[0], l.color[1], l.color[2]);
+                line(l.x, l.y, l.px, l.py);
+            })
 
         }
         function draw() {

@@ -13,7 +13,7 @@ var minutes = 1,
 // funzione che viene eseguita ciclicamente dal server
 setInterval(function () {
   var curr_time = new Date().getTime();
-  
+   console.log("running schedule....")
   lines.forEach((line) => {
     if(curr_time - line.time > 1000 * 60 * 10)  {
         lines.pop(line)};
