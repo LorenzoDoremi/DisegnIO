@@ -1,0 +1,17 @@
+{
+  "name": "disegnio",
+  "version": "1.0.0",
+  "description": "drawing app using socket io",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "lorenzo doremi",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "socket.io": "^4.5.1"
+  }
+}
