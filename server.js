@@ -13,7 +13,7 @@ var minutes = 5,
 
 var lines = [];
 // funzione che viene eseguita ciclicamente dal server
-setInterval(function () {
+/* setInterval(function () {
   var curr_time = new Date().getTime();
    console.log("running schedule....")
   lines.forEach((line) => {
@@ -22,7 +22,13 @@ setInterval(function () {
         lines.pop(line)};
         
   });
-}, the_interval);
+}, the_interval); */
+
+
+
+
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -32,10 +38,24 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 
+// SNAKE
+var points = []
+var snakes = [];
+setInterval(function () {
+
+  var p = {x: 400 + parseInt(Math.random()*800), y: 100+ parseInt(Math.random()*500) }
+  points.push(p)
+  io.emit("point",p)
+}, 1000);
+
+
+
+
+
 io.on("connection", (socket) => {
 
 
-  /* io.sockets.socket(socket.id).emit("new_data", lines) */
+
   socket.on("conn", (connection) => {
     
     socket.emit("old_lines",lines);
@@ -47,6 +67,14 @@ io.on("connection", (socket) => {
     
   });
 
+  socket.on("eat", (head) => {
+         
+    // trova lo snake in snakes di id socket.it
+    // appendi head
+    // ritorna lo snake
+    io.emit("snake_g", {id: socket.id, head})
+  })
+
   // l'utente x slogga
   socket.on("disconnect", () => {});
 });
@@ -54,6 +82,9 @@ io.on("connection", (socket) => {
 // GET FILES
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
+});
+app.get("/snake", (req, res) => {
+  res.sendFile(__dirname + "/snake.html");
 });
 app.get("/socket.js", (req, res) => {
   res.sendFile(__dirname + "/node_modules/socket.io/client-dist/socket.io.js");
