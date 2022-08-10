@@ -98,8 +98,9 @@
             myid = socket.id; 
            
             snake = { snake_id: socket.id, tiles: tiles, color: my_color }
-            socket.emit("new_snake", snake) });
-            start = true;
+            socket.emit("new_snake", snake);
+            start = true; });
+            
 
         
         var xtr = 0;
