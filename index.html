@@ -92,11 +92,14 @@
         var tiles = [head, { x: head.x - snake_size, y: start_tiley }, { x: head.x - 2 * snake_size, y: 100 }, { x: head.x - 3 * snake_size, y: start_tiley }];
         var snake; 
         var myid= "";
+        var start = false;
         // quando mi connetto, invio le mie informazioni
         socket.on('connect', () => { 
             myid = socket.id; 
+           
             snake = { snake_id: socket.id, tiles: tiles, color: my_color }
             socket.emit("new_snake", snake) });
+            start = true;
 
         
         var xtr = 0;
@@ -128,9 +131,12 @@
 
         }
         function draw() {
-            drawBackground();
+            drawBackground()
+            while(!start) {};
 
             // MUOVO IL MIO SNAKE E LO INVIO AL SERVER
+
+            
             move_snake();
             socket.emit("snake", snake);
 
