@@ -39,14 +39,24 @@ const io = new Server(server);
 
 
 // SNAKE
-var points = []
-var snakes = [];
-setInterval(function () {
+var foods = [];
 
-  var p = {x: 400 + parseInt(Math.random()*800), y: 100+ parseInt(Math.random()*500) }
-  points.push(p)
+// {id: socket, tile: []}
+var snakes = [];
+
+var snake_size = 15;
+var tilex = 1200/snake_size;
+var tiley = 700/snake_size;
+// genera il cibo
+setInterval(function () {
+  
+  if(snakes.length > 0) 
+  {var p = {food_id: Math.trunc(Math.random()*10000), x:snake_size*parseInt(Math.random()*tilex), y: snake_size*parseInt(Math.random()*tiley) }
+
+  foods.push(p)
   io.emit("point",p)
-}, 1000);
+}
+}, 4000/(Math.max(snakes.length, 1)));
 
 
 
@@ -55,36 +65,72 @@ setInterval(function () {
 io.on("connection", (socket) => {
 
 
-
+  // nuovo giocatore (gli invio tutte le linee)
   socket.on("conn", (connection) => {
     
     socket.emit("old_lines",lines);
   });
-  // nuovo messaggio
+  // nuovo messaggio ( app delle linee)
   socket.on("line", (msg) => {
     lines.push(msg);
     io.emit("new_line", msg)
     
   });
-
-  socket.on("eat", (head) => {
-         
-    // trova lo snake in snakes di id socket.it
-    // appendi head
-    // ritorna lo snake
-    io.emit("snake_g", {id: socket.id, head})
+  // nuovo giocatore
+  socket.on("new_snake", (snake) => {
+     snakes.push(snake)
+     socket.emit('food', foods)
+    
   })
 
-  // l'utente x slogga
-  socket.on("disconnect", () => {});
+  // update ogni frame di tutti gli snake
+  socket.on("snake", (snake_update) => {
+    
+
+    // aggiorno lo snake che ha inviato il messaggio
+    snakes.forEach(snake =>  {
+      if(snake.snake_id == snake_update.snake_id) {
+        
+        snake.tiles = snake_update.tiles
+      }
+    })
+    // avviso tutti della cosa
+    io.emit('current_snakes', snakes)
+
+  })
+  socket.on("eat", (food) => {
+         
+    // trova il cibo, eliminalo ed avvisa tutti
+    foods.forEach((p, index) => {
+      if(p.food_id == food.food_id) {
+        foods.splice(index, 1)
+      }
+    })
+
+    io.emit("food", foods)
+
+   
+  })
+
+  // l'utente x slogga -> cancello il suo snake
+  socket.on("disconnect", () => {
+
+    snakes.forEach((snake, index) => {
+      if(snake.snake_id == socket.id) {
+        snakes.splice(index,1)
+      }
+    })
+
+
+  });
 });
 
 // GET FILES
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
-app.get("/snake", (req, res) => {
-  res.sendFile(__dirname + "/snake.html");
+app.get("/paint", (req, res) => {
+  res.sendFile(__dirname + "/paint.html");
 });
 app.get("/socket.js", (req, res) => {
   res.sendFile(__dirname + "/node_modules/socket.io/client-dist/socket.io.js");

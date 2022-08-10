@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.js"></script>
+    <script src="socket.js"></script>
+    <style>
+          * { padding: 0; margin: 0;}
+        #clear_button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            background: red;
+            color: white;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        h1 {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            color: white;
+        }
+        #coords {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 10;
+            color: white;
+        }
+      
+    </style>
+</head>
+
+<body>
+    <h1> Disegn.IO</h1>
+    <script>
+        var socket = io();
+        // mi connetto
+        var old_lines = [];
+        var lines = [];
+
+        var old_lines_arrived = false;
+        socket.emit("conn", "hello!")
+
+        socket.on("old_lines", (response) => {
+            old_lines = response;
+            old_lines_arrived =true;
+        })
+        // ricevo una nuova linea dal server
+        socket.on("new_line", (response) => {
+           lines.push(response)
+          
+        })
+        var x = window.innerWidth;
+        var y = window.innerHeight;
+        var clear_Canvas = false;
+        
+
+        var my_color = [parseInt(Math.random()*255), parseInt(Math.random()*255), parseInt(Math.random()*255)]
+
+
+        var xtr = 0;
+        var ytr = 0;
+        function setup() {
+            noStroke();
+            createCanvas(x * 4, y * 4);
+            drawBackground();
+
+
+
+            
+        }
+        function drawBackground() {
+            
+            strokeWeight(1);
+            background(0);
+            stroke(30);
+            for (var i = 0; i < 200; i++) {
+                line(i * (x * 4) / 200, 0, i * (x * 4) / 200, y * 4);
+                line(0, i * (y * 4) / 100, x * 4, i * (y * 4) / 100);
+            }
+           
+
+        }
+        function draw() {
+            translateCanvas();
+            if(old_lines_arrived) {
+                strokeWeight(4);
+            old_lines.forEach(l => {
+                stroke(l.color[0], l.color[1], l.color[2]);
+                line(l.x, l.y, l.px, l.py);
+            })
+            old_lines_arrived = false;
+            }
+
+            if (clear_Canvas) {
+                drawBackground();
+                lines = [];
+                clear_Canvas = !clear_Canvas;
+               
+            }
+            if (mouseIsPressed) {
+                stroke(my_color[0], my_color[1], my_color[2]);
+                strokeWeight(4);
+                var l = { x: winMouseX + window.scrollX, y: winMouseY + window.scrollY, px: pwinMouseX + window.scrollX, py: pwinMouseY + + window.scrollY, life: new Date().getTime(), color: my_color };
+                socket.emit("line", l)
+                lines.push(l)
+            } else {
+
+            }
+           
+                strokeWeight(4);
+            lines.forEach(l => {
+                stroke(l.color[0], l.color[1], l.color[2]);
+                line(l.x, l.y, l.px, l.py);
+            })
+        }
+
+
+
+        function translateCanvas() {
+            document.getElementById("coords").innerHTML = "x: "+(winMouseX + window.scrollX) + ", y: "+ (winMouseY + window.scrollY);
+            var p = 6;
+            if (winMouseX > window.innerWidth - 200) {
+                xtr += p;
+
+
+            }
+            if (winMouseX < 200) {
+                xtr -= p;
+
+            }
+            if (winMouseY > window.innerHeight - 150) {
+                ytr += p;
+
+            }
+            if (winMouseY < 150) {
+                ytr -= p;
+
+            }
+            window.scrollTo(xtr, ytr);
+        }
+        function clearCanvas() {
+            clear_Canvas = true;
+        }
+    </script>
+
+    <button id="clear_button" onclick="clearCanvas()"> PULISCI</button>
+    <span id="coords"></span>
+
+
+</body>
+
+</html>
