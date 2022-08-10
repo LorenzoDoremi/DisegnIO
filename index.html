@@ -179,12 +179,10 @@
                     
                     // controllo se il mio snake va contro altri snake
                     if( curr_snake.snake_id != snake.snake_id && snake.tiles.at(-1).x == p.x && snake.tiles.at(-1).y == p.y) {
-                        console.log("hit!")
+                       
                         
                         var remove = snake.tiles.length - 3;
-                        if(remove < 3) {
-                            remove = 0;
-                        }
+                        
                         snake.tiles.splice(0, remove);
                         
                     }

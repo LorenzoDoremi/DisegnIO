@@ -56,8 +56,14 @@ setInterval(function () {
   foods.push(p)
   io.emit("point",p)
 }
-}, 4000/(Math.max(snakes.length, 1)));
+}, 3000/(Math.max(snakes.length, 1)));
 
+
+
+setInterval(function() {
+// avviso tutti della cosa
+io.emit('current_snakes', snakes)
+}, 1000/15)
 
 
 
@@ -98,8 +104,7 @@ io.on("connection", (socket) => {
         snake.tiles = snake_update.tiles
       }
     })
-    // avviso tutti della cosa
-    io.emit('current_snakes', snakes)
+    
 
   })
   socket.on("eat", (food) => {
