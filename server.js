@@ -76,10 +76,13 @@ io.on("connection", (socket) => {
     io.emit("new_line", msg)
     
   });
+
+
   // nuovo giocatore
   socket.on("new_snake", (snake) => {
      snakes.push(snake)
      socket.emit('food', foods)
+     socket.emit('current_snakes', snakes)
     
   })
 

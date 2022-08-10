@@ -71,6 +71,7 @@
         var snakes = [];
         // RICEVO TUTTI GLI SNAKE
         socket.on("current_snakes", (current_snakes) => {
+            start = true;
             snakes = current_snakes;
 
         })
@@ -99,7 +100,7 @@
            
             snake = { snake_id: socket.id, tiles: tiles, color: my_color }
             socket.emit("new_snake", snake);
-            start = true; });
+           });
             
 
         
