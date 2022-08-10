@@ -148,7 +148,8 @@
                 if (dist(snake.tiles.at(-1).x, snake.tiles.at(-1).y, point.x, point.y) < snake_size) {
 
                    
-                    grow_snake();
+                    grow_snake(2);
+                   
                     
                     socket.emit("eat", foods[index] );
 
@@ -209,7 +210,9 @@
         }
         }
         // ingrandisco lo snake
-        function grow_snake() {
+        function grow_snake(times) {
+
+            for(var x = 0; x < times; x++) {
             if (dir == 1) {
 
                 snake.tiles.push({ x: snake.tiles.at(-1).x + snake_size, y: snake.tiles.at(-1).y })
@@ -226,6 +229,7 @@
 
                 snake.tiles.push({ x: snake.tiles.at(-1).x, y: snake.tiles.at(-1).y - snake_size })
             }
+        }
 
         }
 
