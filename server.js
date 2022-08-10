@@ -80,6 +80,7 @@ io.on("connection", (socket) => {
 
   // nuovo giocatore
   socket.on("new_snake", (snake) => {
+     console.log("NEW SNAKE!")
      snakes.push(snake)
      socket.emit('food', foods)
      socket.emit('current_snakes', snakes)

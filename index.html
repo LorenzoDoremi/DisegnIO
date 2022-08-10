@@ -134,7 +134,7 @@
         }
         function draw() {
             drawBackground()
-            while(!start) {};
+            if(start) {
 
             // MUOVO IL MIO SNAKE E LO INVIO AL SERVER
 
@@ -208,7 +208,7 @@
 
 
 
-
+        }
         }
         // ingrandisco lo snake
         function grow_snake() {
