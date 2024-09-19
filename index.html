@@ -314,8 +314,8 @@
     <script>
         document.getElementById("nickname").addEventListener('input', inputHandler);
         function inputHandler(x) {
-             snake = { snake_id: socket.id, nickname: x.target.value }
-             socket.emit("nickname", snake);
+             s = { snake_id: socket.id, nickname: x.target.value }
+             socket.emit("nickname", s);
         }
     </script>
 
