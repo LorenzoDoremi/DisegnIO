@@ -13,7 +13,7 @@ var minutes = 5,
 
 var lines = [];
 // funzione che viene eseguita ciclicamente dal server
-/* setInterval(function () {
+ setInterval(function () {
   var curr_time = new Date().getTime();
    console.log("running schedule....")
   lines.forEach((line) => {
@@ -22,7 +22,7 @@ var lines = [];
         lines.pop(line)};
         
   });
-}, the_interval); */
+}, the_interval); 
 
 
 
