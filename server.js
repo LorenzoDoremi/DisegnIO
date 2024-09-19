@@ -107,6 +107,22 @@ io.on("connection", (socket) => {
     
 
   })
+
+   // update ogni frame di tutti gli snake
+  socket.on("nickname", (snake_update) => {
+    
+
+    // aggiorno lo snake che ha inviato il messaggio
+    snakes.forEach(snake =>  {
+      if(snake.snake_id == snake_update.snake_id) {
+        
+        snake.nickname = snake_update.nickname
+      }
+    })
+    
+
+  })
+  
   socket.on("eat", (food) => {
          
     // trova il cibo, eliminalo ed avvisa tutti
