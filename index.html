@@ -46,6 +46,14 @@
             align-items: center;
             background: black;
         }
+        #nickname {
+            position: fixed;
+            left: 100px;
+            top: 100px;
+            color: white;
+            background: rgb(30,30,30);
+            padding: 20px; 
+        }
     </style>
 </head>
 
@@ -301,7 +309,7 @@
         document.getElementByID("nickname").addEventListener('input', inputHandler);
         function inputHandler(x) {
              snake = { snake_id: socket.id, nickname: x.target.value }
-             socket.emit("nick", snake);
+             socket.emit("nickname", snake);
         }
     </script>
 
