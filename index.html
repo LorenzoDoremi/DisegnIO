@@ -97,8 +97,8 @@
         // quando mi connetto, invio le mie informazioni
         socket.on('connect', () => { 
             myid = socket.id; 
-           
-            snake = { snake_id: socket.id, tiles: tiles, color: my_color }
+            nickname = document.getElementByID("nickname").value; 
+            snake = { snake_id: socket.id, tiles: tiles, color: my_color, nickname: nickname }
             socket.emit("new_snake", snake);
            });
             
@@ -176,7 +176,7 @@
                    
                    
                     rect(p.x, p.y, snake_size);
-                     
+                    text(curr_snake.nickname, curr_snake.tiles.at(-1).x, curr_snake.tiles.at(-1).y) 
                     
                     // controllo se il mio snake va contro altri snake
                     if( curr_snake.snake_id != snake.snake_id && snake.tiles.at(-1).x == p.x && snake.tiles.at(-1).y == p.y) {
@@ -192,7 +192,7 @@
                 })
 
                 fill(my_color);
-                text("YOU", snake.tiles.at(-1).x, snake.tiles.at(-1).y)
+              
             })
 
            
@@ -295,8 +295,15 @@
     </div>
    <!--  <button id="clear_button" onclick="clearCanvas()"> PULISCI</button> -->
     <span id="coords"></span>
+    <input type="text" id="nickname" />
 
-
+    <script>
+        document.getElementByID("nickname").addEventListener('input', inputHandler);
+        function inputHandler(x) {
+             snake = { snake_id: socket.id, nickname: x.target.value }
+             socket.emit("nick", snake);
+        }
+    </script>
 
 </body>
 
