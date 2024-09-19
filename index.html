@@ -46,10 +46,13 @@
             align-items: center;
             background: black;
         }
-        #nickname {
-            position: fixed;
+        #nick {
+             position: fixed;
             left: 100px;
             top: 100px;
+        }
+        #nickname {
+           
             color: white;
             background: rgb(30,30,30);
             padding: 20px; 
@@ -105,7 +108,7 @@
         // quando mi connetto, invio le mie informazioni
         socket.on('connect', () => { 
             myid = socket.id; 
-            nickname = document.getElementByID("nickname").value; 
+            nickname = document.getElementById("nickname").value; 
             snake = { snake_id: socket.id, tiles: tiles, color: my_color, nickname: nickname }
             socket.emit("new_snake", snake);
            });
@@ -303,10 +306,13 @@
     </div>
    <!--  <button id="clear_button" onclick="clearCanvas()"> PULISCI</button> -->
     <span id="coords"></span>
-    <input type="text" id="nickname" />
+    <div id="nick">
+        <h3>Nickname</h3>
+        <input type="text" id="nickname" />
+    </div>
 
     <script>
-        document.getElementByID("nickname").addEventListener('input', inputHandler);
+        document.getElementById("nickname").addEventListener('input', inputHandler);
         function inputHandler(x) {
              snake = { snake_id: socket.id, nickname: x.target.value }
              socket.emit("nickname", snake);
