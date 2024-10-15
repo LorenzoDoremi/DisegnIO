@@ -103,7 +103,8 @@
 
         // CREO IL MIO COLORE
         var my_color = [parseInt(Math.random() * 255), parseInt(Math.random() * 255), parseInt(Math.random() * 255)]
-        
+        var rand_nick = "snake"+Math.floor(Math.random()*100);
+        document.getElementByID("nickname").value = rand_nick;
         var snake_size = 25;
         // inizializzo il mio snake
         var start_tilex = snake_size*Math.trunc(Math.random()*(screen_width_x/snake_size));
