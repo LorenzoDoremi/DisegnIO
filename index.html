@@ -63,6 +63,9 @@
         #leaderboard {
             position: absolute;
             right: 100px;
+            top: 100px;
+            border: 1px white solid;
+            padding: 16px; 
         }
     </style>
 </head>
@@ -152,6 +155,8 @@
 
         }
         function draw() {
+            let lead = document.getElementById("leaderboard");
+            lead.innerHTML = "";
             drawBackground()
             if(start) {
 
@@ -188,8 +193,7 @@
             })
 
             // disegno tutti gli snake
-             let lead = document.getElementById("leaderboard");
-                lead.innerHTML = "";
+             
             snakes.forEach((curr_snake) => {
                
                 fill(curr_snake.color);
