@@ -44,7 +44,7 @@ var foods = [];
 // {id: socket, tile: []}
 var snakes = [];
 
-var snake_size = 15;
+var snake_size = 25;
 var tilex = 1200/snake_size;
 var tiley = 700/snake_size;
 // genera il cibo
