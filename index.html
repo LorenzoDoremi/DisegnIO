@@ -156,9 +156,12 @@
 
 
         }
+        let time = 0
         function draw() {
+            if(time%120 == 0) {
             let lead = document.getElementById("leaderboard");
             lead.innerHTML = "";
+            }
             drawBackground()
             if(start) {
 
@@ -197,7 +200,9 @@
             // disegno tutti gli snake
              
             snakes.forEach((curr_snake) => {
+                if(time%120 == 0) {
                 lead.innerHTML += "<div>"+curr_snake.nickname+" -> "+curr_snake.tiles.length+"</div>";
+                }
                 fill(curr_snake.color);
                 curr_snake.tiles.forEach((p, index) => {
                    
@@ -236,6 +241,7 @@
 
 
         }
+            time++; 
         }
         // ingrandisco lo snake
         function grow_snake(times) {
