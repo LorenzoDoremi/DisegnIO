@@ -66,6 +66,7 @@
             top: 100px;
             border: 1px white solid;
             padding: 16px; 
+            color: white;
         }
     </style>
 </head>
@@ -195,11 +196,11 @@
             // disegno tutti gli snake
              
             snakes.forEach((curr_snake) => {
-               
+                lead.innerHTML += "<div>"+curr_snake.nickname+" -> "+curr_snake.tiles.length+"</div>";
                 fill(curr_snake.color);
                 curr_snake.tiles.forEach((p, index) => {
                    
-                    lead.innerHTML += "<div>"+curr_snake.nickname+" -> "+curr_snake.tiles.length+"</div>";
+               
                     rect(p.x, p.y, snake_size);
                     // nome del giocatore
                     text(curr_snake.nickname, curr_snake.tiles.at(-1).x, curr_snake.tiles.at(-1).y) 
