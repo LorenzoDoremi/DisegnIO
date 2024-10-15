@@ -75,7 +75,8 @@
     <h1> Snak.IO</h1>
     <script>
         var socket = io();
-
+        let lead = document.getElementById("leaderboard");
+        let time; 
         // mi connetto
         socket.emit("conn", "hello!")
         
@@ -137,6 +138,7 @@
             createCanvas(screen_width_x, screen_width_y).parent("#snakio");
             drawBackground();
             textSize(24);
+            time = 0;
 
 
 
@@ -156,10 +158,10 @@
 
 
         }
-        let time = 0
+     
         function draw() {
             if(time%120 == 0) {
-            let lead = document.getElementById("leaderboard");
+            
             lead.innerHTML = "";
             }
             drawBackground()
