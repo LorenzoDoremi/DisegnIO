@@ -231,12 +231,12 @@
               
             })
 
-           
+              m_time++; 
 
 
 
             document.getElementById("coords").innerHTML = "PUNTEGGIO: " + snake.tiles.length +"\n  x: "+snake.tiles.at(-1).x + "y: "+snake.tiles.at(-1).y;
-
+         
 
 
             // invio al server la mia posizione della testa
@@ -244,7 +244,7 @@
 
 
         }
-            m_time++; 
+      
         }
         // ingrandisco lo snake
         function grow_snake(times) {
