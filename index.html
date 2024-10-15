@@ -60,6 +60,10 @@
             background: rgb(30,30,30);
             padding: 20px; 
         }
+        #leaderboard {
+            position: absolute;
+            right: 100px;
+        }
     </style>
 </head>
 
@@ -184,7 +188,7 @@
             })
 
             // disegno tutti gli snake
-             let lead = document.getElementByID("leaderboard");
+             let lead = document.getElementById("leaderboard");
                 lead.innerHTML = "";
             snakes.forEach((curr_snake) => {
                
