@@ -46,7 +46,7 @@ var snakes = [];
 
 var snake_size = 20;
 var tilex = 1200/snake_size;
-var tiley = 700/snake_size;
+var tiley = 705/snake_size;
 // genera il cibo
 setInterval(function () {
   
