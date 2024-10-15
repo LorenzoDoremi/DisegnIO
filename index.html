@@ -184,12 +184,14 @@
             })
 
             // disegno tutti gli snake
+             let lead = document.getElementByID("leaderboard");
+                lead.innerHTML = "";
             snakes.forEach((curr_snake) => {
-
+               
                 fill(curr_snake.color);
                 curr_snake.tiles.forEach((p, index) => {
                    
-                   
+                    lead.innerHTML += "<div>"+curr_snake.nickname+" -> "+curr_snake.tiles.length+"</div>";
                     rect(p.x, p.y, snake_size);
                     // nome del giocatore
                     text(curr_snake.nickname, curr_snake.tiles.at(-1).x, curr_snake.tiles.at(-1).y) 
@@ -314,6 +316,8 @@
     <div id="nick">
         <h3>Nickname</h3>
         <input type="text" id="nickname" />
+    </div>
+    <div id="leaderboard">
     </div>
 
     <script>
