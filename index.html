@@ -77,7 +77,7 @@
     <script>
         var socket = io();
         let lead = document.getElementById("leaderboard");
-        let time; 
+        let m_time; 
         // mi connetto
         socket.emit("conn", "hello!")
         
@@ -105,8 +105,7 @@
 
         // CREO IL MIO COLORE
         var my_color = [parseInt(Math.random() * 255), parseInt(Math.random() * 255), parseInt(Math.random() * 255)]
-        var rand_nick = "snake"+Math.floor(Math.random()*100);
-        document.getElementById("nickname").value = rand_nick;
+       
         var snake_size = 25;
         // inizializzo il mio snake
         var start_tilex = snake_size*Math.trunc(Math.random()*(screen_width_x/snake_size));
@@ -122,7 +121,7 @@
         // quando mi connetto, invio le mie informazioni
         socket.on('connect', () => { 
             myid = socket.id; 
-            nickname = document.getElementById("nickname").value; 
+            nickname =  "snake"+Math.floor(Math.random()*100);
             snake = { snake_id: socket.id, tiles: tiles, color: my_color, nickname: nickname }
             socket.emit("new_snake", snake);
            });
@@ -162,7 +161,7 @@
         }
      
         function draw() {
-            if(time%120 == 0) {
+            if(m_time%120 == 0) {
             
             lead.innerHTML = "";
             }
@@ -204,7 +203,7 @@
             // disegno tutti gli snake
              
             snakes.forEach((curr_snake) => {
-                if(time%120 == 0) {
+                if(m_time%120 == 0) {
                 lead.innerHTML += "<div>"+curr_snake.nickname+" -> "+curr_snake.tiles.length+"</div>";
                 }
                 fill(curr_snake.color);
