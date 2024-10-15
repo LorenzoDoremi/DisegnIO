@@ -162,8 +162,8 @@
      
         function draw() {
             if(m_time%120 == 0) {
-            
-            lead.innerHTML = "";
+            console.log("reset")
+            document.getElementById("leaderboard").innerHTML = "";
             }
             drawBackground()
             if(start) {
@@ -204,7 +204,8 @@
              
             snakes.forEach((curr_snake) => {
                 if(m_time%120 == 0) {
-                lead.innerHTML += "<div>"+curr_snake.nickname+" -> "+curr_snake.tiles.length+"</div>";
+                 console.log("add lead")
+                 document.getElementById("leaderboard").innerHTML += "<div>"+curr_snake.nickname+" -> "+curr_snake.tiles.length+"</div>";
                 }
                 fill(curr_snake.color);
                 curr_snake.tiles.forEach((p, index) => {
