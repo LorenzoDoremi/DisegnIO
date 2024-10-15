@@ -44,7 +44,7 @@ var foods = [];
 // {id: socket, tile: []}
 var snakes = [];
 
-var snake_size = 25;
+var snake_size = 20;
 var tilex = 1200/snake_size;
 var tiley = 700/snake_size;
 // genera il cibo
@@ -63,7 +63,7 @@ setInterval(function () {
 setInterval(function() {
 // avviso tutti della cosa
 io.emit('current_snakes', snakes)
-}, 1000/15)
+}, 1000/20)
 
 
 
