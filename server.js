@@ -8,7 +8,7 @@ const IP = process.env.YOUR_HOST || "0.0.0.0";
 const port = process.env.PORT || 3000;
 
 var minutes = 5,
-  the_interval = minutes * 60 * 1000;
+the_interval = minutes * 60 * 1000;
 
 
 var lines = [];
@@ -56,7 +56,7 @@ setInterval(function () {
   foods.push(p)
   io.emit("point",p)
 }
-}, 3000/(Math.max(snakes.length, 1)));
+}, 6000/(Math.max(snakes.length, 1)));
 
 
 

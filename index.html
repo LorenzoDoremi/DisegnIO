@@ -46,27 +46,76 @@
             align-items: center;
             background: black;
         }
+
         #nick {
-             position: fixed;
+            position: fixed;
             left: 100px;
             top: 100px;
         }
+
         #nick h3 {
-            color: white; 
-        }
-        #nickname {
-           
             color: white;
-            background: rgb(30,30,30);
-            padding: 20px; 
         }
+
+        #nickname {
+
+            color: white;
+            background: rgb(30, 30, 30);
+            padding: 20px;
+        }
+
         #leaderboard {
             position: absolute;
             right: 100px;
             top: 100px;
             border: 1px white solid;
-            padding: 16px; 
+            padding: 16px;
             color: white;
+        }
+
+        #commands {
+            border: 1px white solid;
+            position: absolute;
+            bottom: 100px;
+            display: none;
+
+        }
+
+        #commands div {
+            font-size: 80px;
+            color: white;
+            padding: 10px;
+            border: 1px white solid;
+            display: inline-block;
+            -webkit-user-select: none;
+            /* Safari */
+            -ms-user-select: none;
+            /* IE 10 and IE 11 */
+            user-select: none;
+            /* Standard syntax */
+
+        }
+
+        @media screen and (max-width: 992px) {
+            #commands {
+                display: block;
+            }
+
+            html {
+                font-size: 40px;
+            }
+
+            #nick {
+                position: absolute;
+                top: 200px;
+
+            }
+
+            #nickname {
+                width: 60vw;
+                height: 10vh;
+                font-size: 80px;
+            }
         }
     </style>
 </head>
@@ -77,10 +126,10 @@
     <script>
         var socket = io();
         let lead = document.getElementById("leaderboard");
-        let m_time = 0; 
+        let m_time = 0;
         // mi connetto
         socket.emit("conn", "hello!")
-        
+
 
         // GESTISCO I CIBI 
         var foods = [];
@@ -99,35 +148,35 @@
             snakes = current_snakes;
 
         })
-        var  screen_width_x = 1200;
+        var screen_width_x = 1200;
         var y = screen_width_y = 705;
         var clear_Canvas = false;
 
         // CREO IL MIO COLORE
         var my_color = [parseInt(Math.random() * 255), parseInt(Math.random() * 255), parseInt(Math.random() * 255)]
-       
+
         var snake_size = 20;
         // inizializzo il mio snake
-        var start_tilex = snake_size*Math.trunc(Math.random()*(screen_width_x/snake_size));
-        var start_tiley = snake_size*Math.trunc(Math.random()*(screen_width_y/snake_size));
+        var start_tilex = snake_size * Math.trunc(Math.random() * (screen_width_x / snake_size));
+        var start_tiley = snake_size * Math.trunc(Math.random() * (screen_width_y / snake_size));
 
         var head = { x: start_tilex, y: start_tiley };
-   
-       
+
+
         var tiles = [head, { x: head.x - snake_size, y: start_tiley }, { x: head.x - 2 * snake_size, y: 100 }, { x: head.x - 3 * snake_size, y: start_tiley }];
-        var snake; 
-        var myid= "";
+        var snake;
+        var myid = "";
         var start = false;
         // quando mi connetto, invio le mie informazioni
-        socket.on('connect', () => { 
-            myid = socket.id; 
-            nickname =  "snake"+Math.floor(Math.random()*100);
+        socket.on('connect', () => {
+            myid = socket.id;
+            nickname = "snake" + Math.floor(Math.random() * 100);
             snake = { snake_id: socket.id, tiles: tiles, color: my_color, nickname: nickname }
             socket.emit("new_snake", snake);
-           });
-            
+        });
 
-        
+
+
         var xtr = 0;
         var ytr = 0;
 
@@ -137,7 +186,7 @@
             noStroke();
             createCanvas(screen_width_x, screen_width_y).parent("#snakio");
             drawBackground();
-            textSize(24);
+            textSize(1920 / screen_width_x * 24);
             m_time = 0;
             lead = document.getElementById("leaderboard");
 
@@ -151,7 +200,7 @@
             background(0);
             stroke(30);
             frameRate(20);
-             // rectMode(CENTER);
+            // rectMode(CENTER);
             for (var i = 0; i < screen_width_x / snake_size; i++) {
                 line(i * snake_size, 0, i * snake_size, screen_width_y);
                 line(0, i * snake_size, screen_width_x, i * snake_size);
@@ -159,115 +208,115 @@
 
 
         }
-     
+
         function draw() {
-            if(m_time%120 == 0) {
-            console.log("reset")
-            document.getElementById("leaderboard").innerHTML = "";
+            if (m_time % 120 == 0) {
+                console.log("reset")
+                document.getElementById("leaderboard").innerHTML = "";
             }
             drawBackground()
-            if(start) {
+            if (start) {
 
-            // MUOVO IL MIO SNAKE E LO INVIO AL SERVER
+                // MUOVO IL MIO SNAKE E LO INVIO AL SERVER
 
-            
-            move_snake();
-            socket.emit("snake", snake);
 
-            // controllo se mangio un cibo
-            foods.forEach((point, index) => {
+                move_snake();
+                socket.emit("snake", snake);
 
-                if (dist(snake.tiles.at(-1).x, snake.tiles.at(-1).y, point.x, point.y) < snake_size) {
+                // controllo se mangio un cibo
+                foods.forEach((point, index) => {
 
-                   
-                    grow_snake(2);
-                   
-                    
-                    socket.emit("eat", foods[index] );
+                    if (dist(snake.tiles.at(-1).x, snake.tiles.at(-1).y, point.x, point.y) < snake_size) {
 
-                }
-                else {
-                    fill(255, 0, 0);
-                    rect(point.x, point.y, snake_size)
-                }
 
-            })
-            // mi mangio da solo 
-            snake.tiles.forEach((tile, index) => {
-                 
-                 if( index < snake.tiles.length -1 && snake.tiles.at(-1).x == tile.x && snake.tiles.at(-1).y == tile.y) {
-                        snake.tiles.splice(0, index);
-                    } 
-            })
+                        grow_snake(2);
 
-            // disegno tutti gli snake
-             
-            snakes.forEach((curr_snake) => {
-                if(m_time%120 == 0) {
-                 console.log("add lead")
-                 document.getElementById("leaderboard").innerHTML += "<div>"+curr_snake.nickname+" -> "+curr_snake.tiles.length+"</div>";
-                }
-                fill(curr_snake.color);
-                curr_snake.tiles.forEach((p, index) => {
-                   
-               
-                    rect(p.x, p.y, snake_size);
-                    // nome del giocatore
-                    text(curr_snake.nickname, curr_snake.tiles.at(-1).x, curr_snake.tiles.at(-1).y) 
-                    
-                    // controllo se il mio snake va contro altri snake
-                    if( curr_snake.snake_id != snake.snake_id && snake.tiles.at(-1).x == p.x && snake.tiles.at(-1).y == p.y) {
-                       
-                        
-                        var remove = snake.tiles.length - 3;
-                        
-                        snake.tiles.splice(0, remove);
-                        
+
+                        socket.emit("eat", foods[index]);
+
+                    }
+                    else {
+                        fill(255, 0, 0);
+                        rect(point.x, point.y, snake_size)
                     }
 
+                })
+                // mi mangio da solo 
+                snake.tiles.forEach((tile, index) => {
+
+                    if (index < snake.tiles.length - 1 && snake.tiles.at(-1).x == tile.x && snake.tiles.at(-1).y == tile.y) {
+                        snake.tiles.splice(0, index);
+                    }
+                })
+
+                // disegno tutti gli snake
+
+                snakes.forEach((curr_snake) => {
+                    if (m_time % 120 == 0) {
+                        console.log("add lead")
+                        document.getElementById("leaderboard").innerHTML += "<div>" + curr_snake.nickname + " -> " + curr_snake.tiles.length + "</div>";
+                    }
+                    fill(curr_snake.color);
+                    curr_snake.tiles.forEach((p, index) => {
+
+
+                        rect(p.x, p.y, snake_size);
+                        // nome del giocatore
+                        text(curr_snake.nickname, curr_snake.tiles.at(-1).x, curr_snake.tiles.at(-1).y)
+
+                        // controllo se il mio snake va contro altri snake
+                        if (curr_snake.snake_id != snake.snake_id && snake.tiles.at(-1).x == p.x && snake.tiles.at(-1).y == p.y) {
+
+
+                            var remove = snake.tiles.length - 3;
+
+                            snake.tiles.splice(0, remove);
+
+                        }
+
+
+                    })
+
+                    fill(my_color);
 
                 })
 
-                fill(my_color);
-              
-            })
-
-              m_time++; 
+                m_time++;
 
 
 
-            document.getElementById("coords").innerHTML = "PUNTEGGIO: " + snake.tiles.length +"\n  x: "+snake.tiles.at(-1).x + "y: "+snake.tiles.at(-1).y;
-         
-
-
-            // invio al server la mia posizione della testa
+                document.getElementById("coords").innerHTML = "PUNTEGGIO: " + snake.tiles.length + "\n  x: " + snake.tiles.at(-1).x + "y: " + snake.tiles.at(-1).y;
 
 
 
-        }
-      
+                // invio al server la mia posizione della testa
+
+
+
+            }
+
         }
         // ingrandisco lo snake
         function grow_snake(times) {
 
-            for(var x = 0; x < times; x++) {
-            if (dir == 1) {
+            for (var x = 0; x < times; x++) {
+                if (dir == 1) {
 
-                snake.tiles.push({ x: snake.tiles.at(-1).x + snake_size, y: snake.tiles.at(-1).y })
-            }
-            else if (dir == 2) {
+                    snake.tiles.push({ x: snake.tiles.at(-1).x + snake_size, y: snake.tiles.at(-1).y })
+                }
+                else if (dir == 2) {
 
-                snake.tiles.push({ x: snake.tiles.at(-1).x, y: snake.tiles.at(-1).y + snake_size })
-            }
-            else if (dir == 3) {
+                    snake.tiles.push({ x: snake.tiles.at(-1).x, y: snake.tiles.at(-1).y + snake_size })
+                }
+                else if (dir == 3) {
 
-                snake.tiles.push({ x: snake.tiles.at(-1).x - snake_size, y: snake.tiles.at(-1).y })
-            }
-            else if (dir == 4) {
+                    snake.tiles.push({ x: snake.tiles.at(-1).x - snake_size, y: snake.tiles.at(-1).y })
+                }
+                else if (dir == 4) {
 
-                snake.tiles.push({ x: snake.tiles.at(-1).x, y: snake.tiles.at(-1).y - snake_size })
+                    snake.tiles.push({ x: snake.tiles.at(-1).x, y: snake.tiles.at(-1).y - snake_size })
+                }
             }
-        }
 
         }
 
@@ -331,21 +380,54 @@
     <div id="snakio">
 
     </div>
-   <!--  <button id="clear_button" onclick="clearCanvas()"> PULISCI</button> -->
+    <!--  <button id="clear_button" onclick="clearCanvas()"> PULISCI</button> -->
     <span id="coords"></span>
     <div id="nick">
         <h3>Nickname</h3>
         <input type="text" id="nickname" />
     </div>
- 
+
     </div>
 
     <script>
         document.getElementById("nickname").addEventListener('input', inputHandler);
         function inputHandler(x) {
-             s = { snake_id: socket.id, nickname: x.target.value }
-             socket.emit("nickname", s);
+            s = { snake_id: socket.id, nickname: x.target.value }
+            socket.emit("nickname", s);
         }
+    </script>
+    <div id="commands">
+        <div id="up"> UP</div>
+        <div id="down"> DOWN</div>
+        <div id="left"> LEFT</div>
+        <div id="right"> RIGHT</div>
+    </div>
+    <script>
+        // Function to change the variable when div is clicked
+        document.getElementById('up').addEventListener('touchend', function () {
+            dir != 2 ? dir = 4 : dir = 2
+
+        });
+        // Function to change the variable when div is clicked
+        document.getElementById('down').addEventListener('touchend', function () {
+            dir != 4 ? dir = 2 : dir = 4
+
+        });
+        // Function to change the variable when div is clicked
+        document.getElementById('left').addEventListener('touchend', function () {
+            dir != 1 ? dir = 3 : dir = 1
+
+        });
+        // Function to change the variable when div is clicked
+        document.getElementById('right').addEventListener('touchend', function () {
+            dir != 3 ? dir = 1 : dir = 3
+
+        });
+    </script>
+
+
+    <script>
+
     </script>
 
 </body>
